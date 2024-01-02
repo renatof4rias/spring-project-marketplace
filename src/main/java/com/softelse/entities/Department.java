@@ -1,12 +1,17 @@
 package com.softelse.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,6 +23,10 @@ public class Department implements Serializable{
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "department")
+	List<Product> products = new ArrayList<>();
 	
 	public Department() {
 
@@ -45,6 +54,10 @@ public class Department implements Serializable{
 		this.name = name;
 	}
 
+	public List<Product> getProducts() {
+		return products;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -61,4 +74,5 @@ public class Department implements Serializable{
 		Department other = (Department) obj;
 		return Objects.equals(id, other.id);
 	}
+
 }
